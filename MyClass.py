@@ -269,19 +269,6 @@ class MainPanel(wx.Panel):
         self.Bind(wx.adv.EVT_SASH_DRAGGED_RANGE, self.OnSashDrag, id=ID_WINDOW_LEFT,
                   id2=ID_WINDOW_BOTTOM)  # BOTTOM和LEFT顺序不能换，要想更改哪个先分，只需更改上面窗口定义的顺序
 
-    def OnParallelProduceChanged(self, event):
-        self.parallel_optimize_enable = self.work_zone_Panel.schedule_panel.parallel_enable_CHK.GetValue()
-        busy = PBI.PyBusyInfo("系统正在更新数据库，请稍候！", parent=None, title="系统消息对话框",
-                              icon=images.Smiles.GetBitmap())
-        wx.Yield()
-        self.AppendRecordInScheduleDB()
-        self.SystemInit()
-        self.work_zone_Panel.schedule_panel.MyRefresh()
-        self.work_zone_Panel.capacity_planning_panel.capacity_planning_grid.MyRefresh()
-        self.work_zone_Panel.processing_order_panel.MyRefresh()
-        self.work_zone_Panel.finish_order_panel.MyRefresh()
-        del busy
-
     def CreateBottomWindow(self):
         self.bottomWindow = wx.adv.SashLayoutWindow(self, ID_WINDOW_BOTTOM, style=wx.NO_BORDER | wx.adv.SW_3D)
         self.bottomWindow.SetDefaultSize((1000, 200))
@@ -357,8 +344,6 @@ class WorkZonePanel(wx.Panel):
         idx4 = il.Add(images._rt_undo.GetBitmap())
         idx5 = il.Add(images._rt_save.GetBitmap())
         idx6 = il.Add(images._rt_redo.GetBitmap())
-        # self.processing_order_panel=OrderProcessPanel(self.notebook,self.master)
-        # self.notebook.AddPage(self.processing_order_panel, PAGE_NAME[0])
         hbox = wx.BoxSizer()
         hbox.Add(self.notebook, 1, wx.EXPAND)
         self.SetSizer(hbox)
